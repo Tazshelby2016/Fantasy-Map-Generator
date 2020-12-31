@@ -10,7 +10,7 @@
     const array = string.split(",");
 
     for (const n of array) {
-      let name = n.trim().toLowerCase();
+      let name = n;
       const basic = !/[^\u0000-\u007f]/.test(name); // basic chars and English rules can be applied
 
       // split word into pseudo-syllables
@@ -38,7 +38,7 @@
           }
 
           if (vowel(that) === next) break; // two same vowels in a row
-          if (v && vowel(name[c + 2])) break; // syllable has vowel and additional vowel is expected soon
+          // if (v && vowel(name[c + 2])) break; // syllable has vowel and additional vowel is expected soon
         }
 
         if (chain[prev] === undefined) chain[prev] = [];
@@ -106,22 +106,17 @@
       if (c === d[i + 1] && !dupl.includes(c)) return r; // duplication is not allowed
       if (!r.length) return c.toUpperCase();
       if (r.slice(-1) === "-" && c === " ") return r; // remove space after hyphen
-      if (r.slice(-1) === " ") return r + c.toUpperCase(); // capitalize letter after space
-      if (r.slice(-1) === "-") return r + c.toUpperCase(); // capitalize letter after hyphen
-      if (c === "a" && d[i + 1] === "e") return r; // "ae" => "e"
-      if (basic && i + 1 < d.length && !vowel(c) && !vowel(d[i - 1]) && !vowel(d[i + 1])) return r; // remove consonant between 2 consonants
-      if (i + 2 < d.length && c === d[i + 1] && c === d[i + 2]) return r; // remove three same letters in a row
       return r + c;
     }, "");
 
     // join the word if any part has only 1 letter
-    if (name.split(" ").some(part => part.length < 2))
-      name = name
-        .split(" ")
-        .map((p, i) => (i ? p.toLowerCase() : p))
-        .join("");
+    //if (name.split(" ").some(part => part.length < 2))
+      //name = name
+        //.split(" ")
+        //.map((p, i) => (i ? p.toLowerCase() : p))
+        //.join("");
 
-    if (name.length < 2) {
+    if (name.length < 1) {
       ERROR && console.error("Name is too short! Random name will be selected");
       name = ra(nameBases[base].b.split(","));
     }
@@ -167,7 +162,7 @@
     if (base === undefined) base = pack.cultures[culture].base;
 
     // exclude endings inappropriate for states name
-    if (name.includes(" ")) name = capitalize(name.replace(/ /g, "").toLowerCase()); // don't allow multiword state names
+    //if (name.includes(" ")) name = capitalize(name.replace(/ /g, "").toLowerCase()); // don't allow multiword state names
     if (name.length > 6 && name.slice(-4) === "berg") name = name.slice(0,-4); // remove -berg for any
     if (name.length > 5 && name.slice(-3) === "ton") name = name.slice(0,-3); // remove -ton for any
 
@@ -175,8 +170,8 @@
     else if (base === 12) return vowel(name.slice(-1)) ? name : name + "u"; // Japanese ends on any vowel or -u
     else if (base === 18 && P(.4)) name = vowel(name.slice(0,1).toLowerCase()) ? "Al" + name.toLowerCase() : "Al " + name; // Arabic starts with -Al
 
-    // no suffix for fantasy bases
-    if (base > 32 && base < 42) return name;
+    // no suffix!
+    if (base > - 1 && base < 42) return name;
 
     // define if suffix should be used
     if (name.length > 3 && vowel(name.slice(-1))) {
@@ -219,7 +214,7 @@
     return name + suffix;
   }
 
-  // generato name for the map
+  // generate name for the map
   const getMapName = function (force) {
     if (!force && locked("mapName")) return;
     if (force && locked("mapName")) unlock("mapName");
