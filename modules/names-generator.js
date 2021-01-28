@@ -116,7 +116,7 @@
         //.map((p, i) => (i ? p.toLowerCase() : p))
         //.join("");
 
-    if (name.length < 1) {
+    if (name.length < 0) {
       ERROR && console.error("Name is too short! Random name will be selected");
       name = ra(nameBases[base].b.split(","));
     }
