@@ -167,8 +167,8 @@
     if (name.length > 5 && name.slice(-3) === "ton") name = name.slice(0,-3); // remove -ton for any
 
     if (base === 5 && ["sk", "ev", "ov"].includes(name.slice(-2))) name = name.slice(0,-2); // remove -sk/-ev/-ov for Ruthenian
-    else if (base === 12) return vowel(name.slice(-1)) ? name : name + "u"; // Japanese ends on any vowel or -u
-    else if (base === 18 && P(.4)) name = vowel(name.slice(0,1).toLowerCase()) ? "Al" + name.toLowerCase() : "Al " + name; // Arabic starts with -Al
+    //else if (base === 12) return vowel(name.slice(-1)) ? name : name + "u"; // Japanese ends on any vowel or -u
+    //else if (base === 18 && P(.4)) name = vowel(name.slice(0,1).toLowerCase()) ? "Al" + name.toLowerCase() : "Al " + name; // Arabic starts with -Al
 
     // no suffix!
     if (base > - 1 && base < 42) return name;
